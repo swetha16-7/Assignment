@@ -366,6 +366,14 @@ export default function DashboardPage() {
                           )}
 
                           <Link
+                            href={`/proposals/${prop.id}/edit`}
+                            className="p-1.5 rounded-lg text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 transition"
+                            title="Edit proposal"
+                          >
+                            <Edit3 className="w-4 h-4" />
+                          </Link>
+
+                          <Link
                             href={`/proposals/${prop.id}/preview`}
                             className="p-1.5 rounded-lg text-slate-600 hover:text-blue-600 hover:bg-blue-50 transition"
                             title="Live Preview"

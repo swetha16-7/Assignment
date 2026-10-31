@@ -91,13 +91,21 @@ export default function NewProposalPage() {
   const [toastMessage, setToastMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  // Load draft from localStorage on mount
+  // Load draft from localStorage on mount and check template URL query param
   useEffect(() => {
     try {
       const saved = localStorage.getItem(DRAFT_STORAGE_KEY);
-      if (saved) {
-        setData(JSON.parse(saved));
+      let initial = saved ? JSON.parse(saved) : INITIAL_PROPOSAL;
+
+      if (typeof window !== 'undefined') {
+        const params = new URLSearchParams(window.location.search);
+        const tmplParam = params.get('template') as any;
+        if (tmplParam && ['corporate', 'modern', 'minimal'].includes(tmplParam)) {
+          initial = { ...initial, selected_template: tmplParam };
+        }
       }
+
+      setData(initial);
     } catch (e) {
       console.warn('LocalStorage draft load note:', e);
     }
