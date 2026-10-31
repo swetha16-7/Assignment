@@ -3,50 +3,50 @@ from typing import List, Dict, Any, Optional
 TEMPLATES_CATALOG: List[Dict[str, Any]] = [
     {
         "id": "corporate",
-        "name": "Corporate Classic",
-        "tagline": "Authoritative & Formal Enterprise Proposal",
-        "description": "Structured layout featuring deep navy accents, serif/sans corporate typography, formal executive cover page, bordered tables, and institutional page headers and footers.",
-        "category": "Enterprise & Corporate",
-        "primary_color": "#0f2942",
-        "accent_color": "#1e3a5f",
-        "badge": "Enterprise Ready",
+        "name": "Executive Elite",
+        "tagline": "Authoritative & Formal Enterprise Consulting",
+        "description": "Sophisticated consulting proposal with deep navy and muted gold accents, formal executive cover page, structured numerical hierarchy, and comprehensive financial breakdown.",
+        "category": "Enterprise & Advisory",
+        "primary_color": "#0b1f3a",
+        "accent_color": "#c5a059",
+        "badge": "Enterprise Elite",
         "features": [
-            "Formal corporate cover page with security & date stamping",
-            "Structured grid layout with section hierarchy",
-            "Elegant bordered pricing breakdown table",
-            "Formal signatory & acceptance block"
+            "Formal luxury cover page with security reference & date stamp",
+            "Executive summary with highlighted strategic thesis card",
+            "Bordered workstream scope & deliverables matrix",
+            "Muted gold accented financial breakdown & signatory block"
         ]
     },
     {
         "id": "modern",
-        "name": "Modern Edge",
-        "tagline": "Contemporary & High-Impact Tech Proposal",
-        "description": "Vibrant sapphire blue accents, modern geometric cover page, pill-style metric badges, card-style objective callouts, and clean striped pricing layout.",
-        "category": "Tech & Startups",
+        "name": "Modern Innovation",
+        "tagline": "Contemporary & High-Impact Tech Agency",
+        "description": "Vibrant sapphire blue and indigo palette with modern geometric layout, card-style objective blocks, structured deliverables, and high-impact total investment callouts.",
+        "category": "Tech & Digital Agency",
         "primary_color": "#2563eb",
         "accent_color": "#4f46e5",
-        "badge": "Popular",
+        "badge": "High Growth",
         "features": [
-            "Split hero cover design with modern typography",
-            "Highlighted cards for objectives & deliverables",
-            "Contemporary zebra-striped pricing table with total callout",
-            "Sleek milestone timeline cards"
+            "Visually striking cover with gradient accent bar & metadata cards",
+            "Attractive visual blocks for business goals & deliverables",
+            "Zebra-striped pricing table with standout investment card",
+            "Contemporary roadmap timeline with duration badges"
         ]
     },
     {
         "id": "minimal",
-        "name": "Minimal Professional",
-        "tagline": "Sophisticated Whitespace & Clean Elegance",
-        "description": "Architectural simplicity with neutral slate tones, airy margins, high typographic contrast, hairline divider lines, and uncluttered tables.",
-        "category": "Consulting & Advisory",
-        "primary_color": "#111827",
-        "accent_color": "#64748b",
+        "name": "Minimal Signature",
+        "tagline": "Sophisticated Whitespace & Editorial Clarity",
+        "description": "Architectural simplicity with pure white, deep charcoal, and warm stone tones. Generous whitespace, refined hairline dividers, and distraction-free financial schedules.",
+        "category": "Consulting & Strategy",
+        "primary_color": "#18181b",
+        "accent_color": "#71717a",
         "badge": "Minimalist",
         "features": [
-            "Crisp editorial typography with generous whitespace",
-            "Hairline dividers with understated elegance",
-            "Open, distraction-free pricing schedule",
-            "Minimalist acceptance and signature block"
+            "Crisp editorial typography with generous breathing room",
+            "Hairline dividers with understated architectural elegance",
+            "Open, distraction-free commercial schedule",
+            "Minimalist acceptance lines and clean signatory layout"
         ]
     }
 ]

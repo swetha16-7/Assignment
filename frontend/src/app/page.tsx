@@ -102,25 +102,25 @@ export default function LandingPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Template 1: Corporate Classic */}
+            {/* Template 1: Executive Elite */}
             <div className="border border-slate-200 rounded-2xl p-6 bg-slate-50/50 flex flex-col justify-between card-hover">
               <div>
                 <div className="w-full h-44 rounded-xl bg-slate-900 p-4 text-white flex flex-col justify-between relative overflow-hidden mb-6 shadow-inner">
                   <div className="w-12 h-1 bg-amber-400 rounded" />
                   <div>
                     <span className="text-[10px] uppercase font-bold tracking-widest text-slate-400">Formal RFP</span>
-                    <div className="text-lg font-serif font-bold text-white">Corporate Classic</div>
+                    <div className="text-lg font-serif font-bold text-white">Executive Elite</div>
                   </div>
                   <div className="h-0.5 bg-slate-800 w-full" />
                 </div>
 
                 <div className="flex items-center gap-2 mb-2">
                   <Building2 className="w-4 h-4 text-blue-900" />
-                  <h3 className="text-lg font-bold text-slate-900">Corporate Classic</h3>
+                  <h3 className="text-lg font-bold text-slate-900">Executive Elite</h3>
                 </div>
                 <p className="text-xs font-semibold text-blue-700 mb-2">Enterprise & Government Contracts</p>
                 <p className="text-xs text-slate-500 leading-relaxed mb-5">
-                  Authoritative navy and white styling, serif typography, structured numerical section headers, bordered pricing tables, and institutional signatory cards.
+                  Authoritative navy and white styling, muted gold accents, executive summary thesis block, structured workstream tables, and luxury investment summary.
                 </p>
 
                 <ul className="space-y-2 text-xs text-slate-600 mb-6">
@@ -143,11 +143,11 @@ export default function LandingPage() {
                 href="/proposals/new?template=corporate"
                 className="w-full py-2.5 px-4 text-center text-xs font-semibold rounded-xl bg-slate-900 hover:bg-slate-800 text-white transition"
               >
-                Use Corporate Classic
+                Use Executive Elite
               </Link>
             </div>
 
-            {/* Template 2: Modern Edge */}
+            {/* Template 2: Modern Innovation */}
             <div className="border-2 border-blue-600 rounded-2xl p-6 bg-blue-50/20 shadow-lg shadow-blue-600/5 flex flex-col justify-between card-hover relative">
               <span className="absolute -top-3 right-6 bg-blue-600 text-white text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-sm">
                 Most Popular
@@ -160,14 +160,14 @@ export default function LandingPage() {
                   </div>
                   <div>
                     <span className="text-[10px] uppercase font-bold tracking-widest text-blue-100">Startup & SaaS</span>
-                    <div className="text-lg font-sans font-extrabold text-white">Modern Edge</div>
+                    <div className="text-lg font-sans font-extrabold text-white">Modern Innovation</div>
                   </div>
                   <div className="h-1 bg-white/30 rounded w-1/3" />
                 </div>
 
                 <div className="flex items-center gap-2 mb-2">
                   <Zap className="w-4 h-4 text-blue-600" />
-                  <h3 className="text-lg font-bold text-slate-900">Modern Edge</h3>
+                  <h3 className="text-lg font-bold text-slate-900">Modern Innovation</h3>
                 </div>
                 <p className="text-xs font-semibold text-blue-600 mb-2">Technology & Software Agencies</p>
                 <p className="text-xs text-slate-500 leading-relaxed mb-5">
@@ -194,25 +194,25 @@ export default function LandingPage() {
                 href="/proposals/new?template=modern"
                 className="w-full py-2.5 px-4 text-center text-xs font-semibold rounded-xl bg-blue-600 hover:bg-blue-700 text-white shadow-sm transition"
               >
-                Use Modern Edge
+                Use Modern Innovation
               </Link>
             </div>
 
-            {/* Template 3: Minimal Professional */}
+            {/* Template 3: Minimal Signature */}
             <div className="border border-slate-200 rounded-2xl p-6 bg-slate-50/50 flex flex-col justify-between card-hover">
               <div>
                 <div className="w-full h-44 rounded-xl bg-white border border-slate-200 p-4 text-slate-900 flex flex-col justify-between relative overflow-hidden mb-6 shadow-sm">
                   <div className="text-[10px] font-mono tracking-widest text-slate-400">REF: PC-A4</div>
                   <div>
                     <span className="text-[10px] uppercase font-bold tracking-widest text-slate-400">Editorial</span>
-                    <div className="text-lg font-light tracking-tight text-slate-900">Minimal Professional</div>
+                    <div className="text-lg font-light tracking-tight text-slate-900">Minimal Signature</div>
                   </div>
                   <div className="h-0.5 bg-slate-200 w-1/4" />
                 </div>
 
                 <div className="flex items-center gap-2 mb-2">
                   <Feather className="w-4 h-4 text-slate-700" />
-                  <h3 className="text-lg font-bold text-slate-900">Minimal Professional</h3>
+                  <h3 className="text-lg font-bold text-slate-900">Minimal Signature</h3>
                 </div>
                 <p className="text-xs font-semibold text-slate-700 mb-2">Consulting & Strategic Advisory</p>
                 <p className="text-xs text-slate-500 leading-relaxed mb-5">
@@ -239,7 +239,7 @@ export default function LandingPage() {
                 href="/proposals/new?template=minimal"
                 className="w-full py-2.5 px-4 text-center text-xs font-semibold rounded-xl bg-slate-900 hover:bg-slate-800 text-white transition"
               >
-                Use Minimal Professional
+                Use Minimal Signature
               </Link>
             </div>
           </div>

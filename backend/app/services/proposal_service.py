@@ -10,8 +10,18 @@ from app.utils.calculations import calculate_proposal_totals
 def generate_proposal_number(db: Session) -> str:
     year = datetime.utcnow().year
     prefix = f"PC-{year}-"
-    count = db.query(Proposal).filter(Proposal.proposal_number.like(f"{prefix}%")).count()
-    return f"{prefix}{count + 1:04d}"
+    existing = db.query(Proposal.proposal_number).filter(Proposal.proposal_number.like(f"{prefix}%")).all()
+    existing_nums = set()
+    for (num_str,) in existing:
+        try:
+            seq_part = int(num_str.split("-")[-1])
+            existing_nums.add(seq_part)
+        except (ValueError, IndexError):
+            pass
+    next_seq = 1
+    while next_seq in existing_nums:
+        next_seq += 1
+    return f"{prefix}{next_seq:04d}"
 
 
 def create_proposal(db: Session, proposal_in: ProposalCreate) -> Proposal:

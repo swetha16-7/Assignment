@@ -10,56 +10,56 @@ interface Step7Props {
 const TEMPLATES = [
   {
     id: 'corporate' as TemplateId,
-    name: 'Corporate Classic',
-    tagline: 'Formal & Authoritative Enterprise Design',
-    category: 'Enterprise & Institutional',
-    badge: 'Enterprise Standard',
-    primaryColor: '#0f2942',
-    accentColor: '#1e3a5f',
+    name: 'Executive Elite',
+    tagline: 'Formal & Authoritative Enterprise Consulting',
+    category: 'Enterprise & Advisory',
+    badge: 'Enterprise Elite',
+    primaryColor: '#0b1f3a',
+    accentColor: '#c5a059',
     icon: Building2,
     description:
-      'Structured layout featuring deep navy corporate styling, serif/sans typography, bordered pricing grids, formal security cover page, and institutional signatory boxes.',
+      'Sophisticated consulting proposal with deep navy and muted gold accents, formal executive cover page, structured numerical hierarchy, and comprehensive financial breakdown.',
     features: [
-      'Formal executive cover page with date & security watermark',
-      'Structured numerical section hierarchy (1.0, 2.0...)',
-      'Corporate bordered pricing table with totals highlight',
-      'Formal dual-party authorization & signature block'
+      'Formal luxury cover page with security reference & date stamp',
+      'Executive summary with highlighted strategic thesis card',
+      'Bordered workstream scope & deliverables matrix',
+      'Muted gold accented financial breakdown & signatory block'
     ]
   },
   {
     id: 'modern' as TemplateId,
-    name: 'Modern Edge',
-    tagline: 'Contemporary & High-Impact Tech Layout',
-    category: 'Technology & Startups',
-    badge: 'Most Popular',
+    name: 'Modern Innovation',
+    tagline: 'Contemporary & High-Impact Tech Agency',
+    category: 'Tech & Digital Agency',
+    badge: 'High Growth',
     primaryColor: '#2563eb',
     accentColor: '#4f46e5',
     icon: Zap,
     description:
-      'Vibrant sapphire blue accents, modern geometric cover page, pill-style metric badges, card-style objective callouts, and clean striped pricing layout.',
+      'Vibrant sapphire blue and indigo palette with modern geometric layout, card-style objective blocks, structured deliverables, and high-impact total investment callouts.',
     features: [
-      'Split hero cover page with subtle gradient accent line',
-      'Card-based objective callouts with modern badges',
-      'Zebra-striped financial table with standout total card',
-      'Contemporary signed authorization cards'
+      'Visually striking cover with gradient accent bar & metadata cards',
+      'Attractive visual blocks for business goals & deliverables',
+      'Zebra-striped pricing table with standout investment card',
+      'Contemporary roadmap timeline with duration badges'
     ]
   },
   {
     id: 'minimal' as TemplateId,
-    name: 'Minimal Professional',
-    tagline: 'Sophisticated Whitespace & Clean Typography',
-    category: 'Consulting & Advisory',
-    badge: 'Clean & Airy',
-    primaryColor: '#111827',
-    accentColor: '#64748b',
+    name: 'Minimal Signature',
+    tagline: 'Sophisticated Whitespace & Editorial Clarity',
+    category: 'Consulting & Strategy',
+    badge: 'Minimalist',
+    primaryColor: '#18181b',
+    accentColor: '#71717a',
     icon: Feather,
     description:
-      'Architectural simplicity with neutral slate tones, generous whitespace, high typographic contrast, hairline divider lines, and uncluttered tables.',
+      'Architectural simplicity with pure white, deep charcoal, and warm stone tones. Generous whitespace, refined hairline dividers, and distraction-free financial schedules.',
     features: [
-      'Clean editorial cover with stark typographic hierarchy',
-      'Generous whitespace and subtle hairline divider rules',
-      'Open, distraction-free pricing breakdown schedule',
-      'Minimalist horizontal signature rules'
+      'Crisp editorial typography with generous breathing room',
+      'Hairline dividers with understated architectural elegance',
+      'Open, distraction-free commercial schedule',
+      'Minimalist acceptance lines and clean signatory layout'
     ]
   }
 ];

@@ -40,9 +40,9 @@ export default function Footer() {
           <div>
             <h4 className="text-xs font-semibold text-slate-900 uppercase tracking-wider mb-3">Templates</h4>
             <ul className="space-y-2 text-sm text-slate-600">
-              <li><span className="text-slate-700 font-medium">Corporate Classic</span> — Enterprise RFP</li>
-              <li><span className="text-slate-700 font-medium">Modern Edge</span> — Tech & Startups</li>
-              <li><span className="text-slate-700 font-medium">Minimal Professional</span> — Consulting</li>
+              <li><span className="text-slate-700 font-medium">Executive Elite</span> — Enterprise RFP</li>
+              <li><span className="text-slate-700 font-medium">Modern Innovation</span> — Tech & Startups</li>
+              <li><span className="text-slate-700 font-medium">Minimal Signature</span> — Advisory & Strategy</li>
             </ul>
           </div>
         </div>

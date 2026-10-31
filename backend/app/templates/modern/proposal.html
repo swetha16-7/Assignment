@@ -6,11 +6,17 @@
   <style>
     @page {
       size: A4 portrait;
-      margin: 16mm 16mm 18mm 16mm;
+      margin: 15mm 16mm 16mm 16mm;
       @bottom-right {
         content: "Page " counter(page) " of " counter(pages);
-        font-family: 'Inter', system-ui, -apple-system, sans-serif;
-        font-size: 8.5pt;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-size: 8pt;
+        color: #94a3b8;
+      }
+      @bottom-left {
+        content: "{{ proposal.company_name or 'ProposalCraft' }} • Technology Scope & Commercial Specification";
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-size: 7.5pt;
         color: #94a3b8;
       }
     }
@@ -22,82 +28,92 @@
     }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       color: #0f172a;
       line-height: 1.6;
-      font-size: 10pt;
+      font-size: 9.5pt;
       background: #ffffff;
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
     }
 
-    /* COVER PAGE */
+    /* COVER PAGE - MODERN TECH & DIGITAL AGENCY */
     .cover-container {
       page-break-after: always;
+      break-after: page;
       min-height: 94vh;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       position: relative;
-      padding: 20px 10px 30px 10px;
+      padding: 24px 10px 16px 10px;
     }
 
-    .top-accent-bar {
+    .top-gradient-stripe {
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
-      height: 8px;
+      height: 6px;
       background: linear-gradient(90deg, #2563eb 0%, #4f46e5 50%, #06b6d4 100%);
-      border-radius: 4px;
+      border-radius: 3px;
     }
 
     .cover-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 30px;
-      margin-bottom: 50px;
+      margin-top: 20px;
+      margin-bottom: 40px;
     }
 
     .cover-logo img {
       max-height: 65px;
-      max-width: 200px;
+      max-width: 220px;
       object-fit: contain;
     }
 
     .cover-logo-text {
       font-size: 16pt;
       font-weight: 800;
-      background: linear-gradient(135deg, #2563eb, #1e40af);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
       letter-spacing: -0.5px;
+      color: #2563eb;
     }
 
     .pill-badge {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       background: #eff6ff;
       color: #2563eb;
-      font-size: 9pt;
-      font-weight: 600;
-      padding: 6px 16px;
-      border-radius: 20px;
+      font-size: 8pt;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 9999px;
       border: 1px solid #bfdbfe;
-      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .pill-badge::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #2563eb;
     }
 
     .cover-hero {
-      margin-top: 20px;
-      margin-bottom: 50px;
+      margin-top: 10px;
+      margin-bottom: 40px;
     }
 
     .hero-pretitle {
-      color: #2563eb;
+      font-size: 9pt;
       font-weight: 700;
-      font-size: 10.5pt;
       text-transform: uppercase;
       letter-spacing: 1.5px;
+      color: #2563eb;
       margin-bottom: 12px;
     }
 
@@ -106,12 +122,12 @@
       font-weight: 800;
       line-height: 1.15;
       color: #0f172a;
-      letter-spacing: -1px;
-      margin-bottom: 16px;
+      letter-spacing: -1.2px;
+      margin-bottom: 14px;
     }
 
     .hero-subtitle {
-      font-size: 15pt;
+      font-size: 13.5pt;
       color: #475569;
       font-weight: 400;
       margin-bottom: 30px;
@@ -128,15 +144,20 @@
       background: #f8fafc;
       border: 1px solid #e2e8f0;
       border-radius: 12px;
-      padding: 22px;
+      padding: 20px 22px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+
+    .info-card.provider-card {
+      background: #f0f7ff;
+      border-color: #bfdbfe;
     }
 
     .info-card-header {
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .card-indicator {
@@ -146,8 +167,12 @@
       background: #2563eb;
     }
 
+    .card-indicator.indigo {
+      background: #4f46e5;
+    }
+
     .info-card h4 {
-      font-size: 9pt;
+      font-size: 8pt;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 1px;
@@ -155,16 +180,16 @@
     }
 
     .info-card p {
-      font-size: 9.5pt;
-      color: #1e293b;
+      font-size: 9pt;
+      color: #334155;
       line-height: 1.5;
     }
 
     .info-card strong {
-      font-size: 11pt;
+      font-size: 10.5pt;
       color: #0f172a;
       display: block;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
 
     .cover-bottom {
@@ -172,14 +197,14 @@
       justify-content: space-between;
       align-items: center;
       border-top: 1px solid #e2e8f0;
-      padding-top: 18px;
+      padding-top: 16px;
       color: #64748b;
-      font-size: 8.5pt;
+      font-size: 8pt;
     }
 
     /* INNER PAGES */
     .section-wrap {
-      margin-bottom: 30px;
+      margin-bottom: 28px;
       break-inside: auto;
     }
 
@@ -187,17 +212,19 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-bottom: 18px;
-      margin-top: 24px;
+      margin-bottom: 16px;
+      margin-top: 22px;
       padding-bottom: 8px;
       border-bottom: 2px solid #e2e8f0;
+      break-after: avoid;
+      page-break-after: avoid;
     }
 
     .section-index {
       background: #2563eb;
       color: #ffffff;
-      font-weight: 700;
-      font-size: 10pt;
+      font-weight: 800;
+      font-size: 9pt;
       width: 26px;
       height: 26px;
       border-radius: 6px;
@@ -207,21 +234,51 @@
     }
 
     .section-headline h2 {
-      font-size: 14pt;
-      font-weight: 700;
+      font-size: 13pt;
+      font-weight: 800;
       color: #0f172a;
       letter-spacing: -0.3px;
     }
 
+    .section-tagline {
+      margin-left: auto;
+      font-size: 7.5pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #2563eb;
+    }
+
     .paragraph-text {
-      font-size: 10pt;
+      font-size: 9.5pt;
       color: #334155;
-      line-height: 1.7;
+      line-height: 1.65;
       white-space: pre-line;
       margin-bottom: 14px;
     }
 
-    /* GRID OBJECTIVES */
+    /* OVERVIEW SUMMARY CARD */
+    .modern-overview-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-left: 4px solid #2563eb;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+      break-inside: avoid;
+    }
+
+    .overview-label {
+      font-size: 7.5pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: #2563eb;
+      margin-bottom: 6px;
+    }
+
+    /* BUSINESS OBJECTIVES BLOCKS */
     .objectives-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -232,45 +289,96 @@
     .objective-pill {
       background: #f8fafc;
       border: 1px solid #e2e8f0;
-      border-left: 4px solid #2563eb;
       border-radius: 8px;
       padding: 12px 16px;
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-size: 10pt;
-      color: #1e293b;
+      gap: 14px;
       break-inside: avoid;
     }
 
     .pill-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #dbeafe;
       color: #2563eb;
-      font-weight: bold;
-      font-size: 11pt;
+      font-weight: 800;
+      font-size: 8.5pt;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      shrink-0: 0;
     }
 
-    /* CARDS */
+    .pill-text {
+      font-size: 9pt;
+      color: #1e293b;
+      font-weight: 500;
+    }
+
+    /* STRUCTURED SCOPE & DELIVERABLES CARDS */
     .modern-card {
       background: #ffffff;
       border: 1px solid #e2e8f0;
       border-radius: 8px;
-      padding: 16px;
-      margin-bottom: 12px;
+      padding: 14px 18px;
+      margin-bottom: 10px;
       box-shadow: 0 1px 2px rgba(0,0,0,0.02);
       break-inside: avoid;
+      page-break-inside: avoid;
     }
 
-    .modern-card-title {
-      font-size: 11pt;
-      font-weight: 700;
-      color: #1e40af;
+    .card-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 4px;
     }
 
+    .modern-card-title {
+      font-size: 10.5pt;
+      font-weight: 700;
+      color: #1e40af;
+    }
+
+    .card-chip {
+      font-size: 7pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      background: #eff6ff;
+      color: #2563eb;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
     .modern-card-desc {
-      font-size: 9.5pt;
+      font-size: 9pt;
       color: #475569;
       line-height: 1.5;
+    }
+
+    .deliverables-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .deliv-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-left: 3px solid #4f46e5;
+      border-radius: 8px;
+      padding: 12px 16px;
+      break-inside: avoid;
+    }
+
+    .deliv-title {
+      font-size: 9.5pt;
+      font-weight: 700;
+      color: #4f46e5;
+      margin-bottom: 4px;
     }
 
     /* MODERN TABLES */
@@ -278,11 +386,11 @@
       width: 100%;
       border-collapse: separate;
       border-spacing: 0;
-      margin: 14px 0 20px 0;
+      margin: 14px 0 18px 0;
       border: 1px solid #e2e8f0;
       border-radius: 8px;
       overflow: hidden;
-      font-size: 9.5pt;
+      font-size: 9pt;
       break-inside: avoid;
     }
 
@@ -290,16 +398,16 @@
       background: #f1f5f9;
       color: #334155;
       font-weight: 700;
-      font-size: 8.5pt;
+      font-size: 8pt;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      padding: 12px 14px;
+      letter-spacing: 0.6px;
+      padding: 10px 14px;
       text-align: left;
       border-bottom: 1px solid #cbd5e1;
     }
 
     .modern-table tbody td {
-      padding: 11px 14px;
+      padding: 10px 14px;
       border-bottom: 1px solid #f1f5f9;
       color: #1e293b;
     }
@@ -312,39 +420,48 @@
       text-align: right !important;
     }
 
+    /* TOTAL INVESTMENT STANDOUT CARD */
     .modern-summary-wrap {
       display: flex;
       justify-content: flex-end;
       margin-bottom: 24px;
       break-inside: avoid;
+      page-break-inside: avoid;
     }
 
     .modern-summary-card {
-      width: 300px;
-      background: #f8fafc;
+      width: 320px;
+      background: #ffffff;
       border: 1px solid #e2e8f0;
       border-radius: 10px;
-      padding: 16px;
+      padding: 16px 20px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.04);
     }
 
     .summary-line {
       display: flex;
       justify-content: space-between;
       padding: 6px 0;
-      font-size: 9.5pt;
+      font-size: 9pt;
       color: #64748b;
     }
 
     .summary-total {
-      margin-top: 8px;
-      padding-top: 10px;
+      margin-top: 10px;
+      padding-top: 12px;
       border-top: 2px solid #2563eb;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 12pt;
+      font-size: 11pt;
       font-weight: 800;
-      color: #1e40af;
+      color: #0f172a;
+    }
+
+    .total-investment-badge {
+      font-size: 14pt;
+      font-weight: 800;
+      color: #2563eb;
     }
 
     /* TERMS */
@@ -352,28 +469,29 @@
       background: #f8fafc;
       border: 1px solid #e2e8f0;
       border-radius: 8px;
-      padding: 14px;
+      padding: 12px 16px;
       margin-bottom: 10px;
       break-inside: avoid;
     }
 
     .term-box-title {
       font-weight: 700;
-      font-size: 10pt;
+      font-size: 9.5pt;
       color: #0f172a;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
 
     .term-box-content {
-      font-size: 9pt;
+      font-size: 8.5pt;
       color: #475569;
       line-height: 1.5;
     }
 
-    /* SIGNATURE */
+    /* CLOSING SIGN-OFF PAGE */
     .modern-sign {
-      margin-top: 34px;
+      margin-top: 32px;
       break-inside: avoid;
+      page-break-inside: avoid;
     }
 
     .sign-cards-grid {
@@ -385,28 +503,36 @@
 
     .sign-party-card {
       border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      padding: 20px;
+      border-radius: 10px;
+      padding: 18px 20px;
       background: #ffffff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+
+    .sign-party-card.provider-card {
+      border-color: #93c5fd;
+      background: #f8fafc;
     }
 
     .party-title {
-      font-size: 9pt;
+      font-size: 8.5pt;
       font-weight: 700;
       color: #2563eb;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       margin-bottom: 12px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #e2e8f0;
     }
 
     .digital-line {
-      height: 44px;
+      height: 42px;
       border-bottom: 2px dashed #94a3b8;
       margin-bottom: 12px;
     }
 
     .sign-info-row {
-      font-size: 8.5pt;
+      font-size: 8pt;
       color: #64748b;
       margin-bottom: 6px;
     }
@@ -416,7 +542,7 @@
 
   <!-- COVER PAGE -->
   <div class="cover-container">
-    <div class="top-accent-bar"></div>
+    <div class="top-gradient-stripe"></div>
 
     <div class="cover-header">
       <div class="cover-logo">
@@ -430,17 +556,17 @@
     </div>
 
     <div class="cover-hero">
-      <div class="hero-pretitle">Business Proposal</div>
+      <div class="hero-pretitle">Commercial & Technical Proposal</div>
       <h1 class="hero-title">{{ proposal.title }}</h1>
       {% if proposal.project_name %}
-        <div class="hero-subtitle">Prepared for <strong>{{ proposal.client_company or proposal.client_name }}</strong></div>
+        <div class="hero-subtitle">Prepared for <strong>{{ proposal.client_company or proposal.client_name }}</strong> • Initiative: {{ proposal.project_name }}</div>
       {% endif %}
 
       <div class="cards-row">
         <div class="info-card">
           <div class="info-card-header">
             <span class="card-indicator"></span>
-            <h4>Client Information</h4>
+            <h4>Client Stakeholder</h4>
           </div>
           <strong>{{ proposal.client_name }}</strong>
           <p>{{ proposal.client_company }}</p>
@@ -449,10 +575,10 @@
           {% if proposal.client_address %}<p>{{ proposal.client_address }}</p>{% endif %}
         </div>
 
-        <div class="info-card">
+        <div class="info-card provider-card">
           <div class="info-card-header">
-            <span class="card-indicator" style="background:#4f46e5;"></span>
-            <h4>Prepared By</h4>
+            <span class="card-indicator indigo"></span>
+            <h4>Technology Partner</h4>
           </div>
           <strong>{{ proposal.company_name }}</strong>
           {% if proposal.company_email %}<p>{{ proposal.company_email }}</p>{% endif %}
@@ -465,29 +591,33 @@
 
     <div class="cover-bottom">
       <span>Issue Date: {{ proposal.created_at.strftime('%B %d, %Y') if proposal.created_at else 'Current Date' }}</span>
-      <span>Confidential Strategic Proposal</span>
+      <span>Confidential Technology Architecture Proposal</span>
     </div>
   </div>
 
-  <!-- EXECUTIVE SUMMARY & OBJECTIVES -->
-  {% if proposal.project_description or proposal.project_objectives %}
+  <!-- SECTION 1: EXECUTIVE SUMMARY & OBJECTIVES -->
+  {% if proposal.project_description or (proposal.project_objectives and proposal.project_objectives|length > 0) %}
   <div class="section-wrap">
     <div class="section-headline">
       <div class="section-index">01</div>
       <h2>Executive Overview & Strategic Goals</h2>
+      <span class="section-tagline">Vision & Scope</span>
     </div>
 
     {% if proposal.project_description %}
-      <div class="paragraph-text">{{ proposal.project_description }}</div>
+      <div class="modern-overview-card">
+        <div class="overview-label">Project Executive Brief</div>
+        <div class="paragraph-text" style="margin-bottom: 0;">{{ proposal.project_description }}</div>
+      </div>
     {% endif %}
 
     {% if proposal.project_objectives and proposal.project_objectives|length > 0 %}
-      <h3 style="font-size: 11pt; font-weight: 700; color: #1e293b; margin: 16px 0 10px 0;">Target Objectives</h3>
+      <h3 style="font-size: 10pt; font-weight: 700; color: #0f172a; margin: 16px 0 10px 0;">Target Project Objectives</h3>
       <div class="objectives-grid">
         {% for obj in proposal.project_objectives %}
           <div class="objective-pill">
             <span class="pill-icon">✓</span>
-            <span>{{ obj }}</span>
+            <span class="pill-text">{{ obj }}</span>
           </div>
         {% endfor %}
       </div>
@@ -495,17 +625,21 @@
   </div>
   {% endif %}
 
-  <!-- SCOPE OF WORK -->
+  <!-- SECTION 2: SCOPE OF WORK -->
   {% if proposal.scope_items and proposal.scope_items|length > 0 %}
   <div class="section-wrap">
     <div class="section-headline">
       <div class="section-index">02</div>
-      <h2>Project Scope & Architecture</h2>
+      <h2>Project Scope & Technical Architecture</h2>
+      <span class="section-tagline">Work Breakdown</span>
     </div>
 
     {% for item in proposal.scope_items %}
       <div class="modern-card">
-        <div class="modern-card-title">{{ item.title }}</div>
+        <div class="card-top-row">
+          <div class="modern-card-title">{{ item.title }}</div>
+          <span class="card-chip">Workstream #{{ loop.index }}</span>
+        </div>
         {% if item.description %}
           <div class="modern-card-desc">{{ item.description }}</div>
         {% endif %}
@@ -514,47 +648,51 @@
   </div>
   {% endif %}
 
-  <!-- DELIVERABLES & ASSUMPTIONS -->
+  <!-- SECTION 3: DELIVERABLES & ASSUMPTIONS -->
   {% if (proposal.deliverables and proposal.deliverables|length > 0) or proposal.assumptions %}
   <div class="section-wrap">
     <div class="section-headline">
       <div class="section-index">03</div>
-      <h2>Key Deliverables & Assumptions</h2>
+      <h2>Key Deliverables & Working Assumptions</h2>
+      <span class="section-tagline">Handover Artifacts</span>
     </div>
 
     {% if proposal.deliverables and proposal.deliverables|length > 0 %}
-      {% for deliv in proposal.deliverables %}
-        <div class="modern-card" style="border-left: 3px solid #4f46e5;">
-          <div class="modern-card-title" style="color: #4f46e5;">{{ deliv.title }}</div>
-          {% if deliv.description %}
-            <div class="modern-card-desc">{{ deliv.description }}</div>
-          {% endif %}
-        </div>
-      {% endfor %}
+      <div class="deliverables-grid">
+        {% for deliv in proposal.deliverables %}
+          <div class="deliv-card">
+            <div class="deliv-title">{{ deliv.title }}</div>
+            {% if deliv.description %}
+              <div class="modern-card-desc">{{ deliv.description }}</div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
     {% endif %}
 
     {% if proposal.assumptions %}
-      <div class="modern-card" style="background: #f8fafc; border-style: dashed; margin-top: 14px;">
-        <div class="modern-card-title" style="color: #64748b; font-size: 10pt;">Working Assumptions</div>
-        <div class="paragraph-text" style="font-size: 9.5pt; margin-bottom: 0;">{{ proposal.assumptions }}</div>
+      <div class="modern-card" style="background: #f8fafc; border-style: dashed; margin-top: 10px;">
+        <div class="modern-card-title" style="color: #64748b; font-size: 8.5pt; text-transform: uppercase;">Working Assumptions & Dependencies</div>
+        <div class="paragraph-text" style="font-size: 9pt; margin-bottom: 0;">{{ proposal.assumptions }}</div>
       </div>
     {% endif %}
   </div>
   {% endif %}
 
-  <!-- TIMELINE -->
+  <!-- SECTION 4: TIMELINE & EXECUTION ROADMAP -->
   {% if proposal.timeline_phases and proposal.timeline_phases|length > 0 %}
   <div class="section-wrap">
     <div class="section-headline">
       <div class="section-index">04</div>
       <h2>Execution Roadmap & Milestones</h2>
+      <span class="section-tagline">Milestone Delivery</span>
     </div>
 
     <table class="modern-table">
       <thead>
         <tr>
           <th style="width: 25%;">Phase</th>
-          <th style="width: 45%;">Key Deliverables / Scope</th>
+          <th style="width: 45%;">Scope / Activities</th>
           <th style="width: 15%;">Period</th>
           <th style="width: 15%;">Duration</th>
         </tr>
@@ -562,10 +700,10 @@
       <tbody>
         {% for phase in proposal.timeline_phases %}
         <tr>
-          <td><strong style="color: #1e40af;">{{ phase.phase_name }}</strong></td>
-          <td>{{ phase.description }}</td>
-          <td>{{ phase.start_date }}{% if phase.end_date %} – {{ phase.end_date }}{% endif %}</td>
-          <td><span class="pill-badge" style="padding: 2px 8px; font-size: 8pt;">{{ phase.duration }}</span></td>
+          <td><strong style="color: #2563eb;">{{ phase.phase_name }}</strong></td>
+          <td style="color: #475569;">{{ phase.description }}</td>
+          <td style="color: #64748b; font-size: 8.5pt;">{{ phase.start_date }}{% if phase.end_date %} – {{ phase.end_date }}{% endif %}</td>
+          <td><span class="pill-badge" style="padding: 2px 8px; font-size: 7.5pt;">{{ phase.duration }}</span></td>
         </tr>
         {% endfor %}
       </tbody>
@@ -573,30 +711,31 @@
   </div>
   {% endif %}
 
-  <!-- PRICING & COST BREAKDOWN -->
+  <!-- SECTION 5: PRICING & INVESTMENT -->
   {% if proposal.line_items and proposal.line_items|length > 0 %}
   <div class="section-wrap">
     <div class="section-headline">
       <div class="section-index">05</div>
       <h2>Investment & Cost Breakdown</h2>
+      <span class="section-tagline">Commercial Schedule</span>
     </div>
 
     <table class="modern-table">
       <thead>
         <tr>
-          <th style="width: 55%;">Item Details</th>
-          <th style="width: 15%; text-align: right;">Qty</th>
-          <th style="width: 15%; text-align: right;">Rate</th>
-          <th style="width: 15%; text-align: right;">Amount</th>
+          <th style="width: 52%;">Item Description</th>
+          <th style="width: 12%; text-align: right;">Quantity</th>
+          <th style="width: 18%; text-align: right;">Rate ({{ proposal.currency_symbol }})</th>
+          <th style="width: 18%; text-align: right;">Amount ({{ proposal.currency_symbol }})</th>
         </tr>
       </thead>
       <tbody>
         {% for item in proposal.line_items %}
         <tr>
-          <td><strong>{{ item.description }}</strong></td>
+          <td><strong style="color: #0f172a;">{{ item.description }}</strong></td>
           <td class="text-right">{{ item.quantity }}</td>
           <td class="text-right">{{ proposal.currency_symbol }}{{ "{:,.2f}".format(item.unit_price) }}</td>
-          <td class="text-right"><strong style="color: #0f172a;">{{ proposal.currency_symbol }}{{ "{:,.2f}".format(item.total) }}</strong></td>
+          <td class="text-right"><strong style="color: #2563eb;">{{ proposal.currency_symbol }}{{ "{:,.2f}".format(item.total) }}</strong></td>
         </tr>
         {% endfor %}
       </tbody>
@@ -621,20 +760,21 @@
         </div>
         {% endif %}
         <div class="summary-total">
-          <span>Total</span>
-          <span>{{ proposal.currency_symbol }}{{ "{:,.2f}".format(proposal.grand_total) }}</span>
+          <span>Total Proposed Investment</span>
+          <span class="total-investment-badge">{{ proposal.currency_symbol }}{{ "{:,.2f}".format(proposal.grand_total) }}</span>
         </div>
       </div>
     </div>
   </div>
   {% endif %}
 
-  <!-- TERMS -->
+  <!-- SECTION 6: TERMS & CONDITIONS -->
   {% if proposal.terms and proposal.terms|length > 0 %}
   <div class="section-wrap">
     <div class="section-headline">
       <div class="section-index">06</div>
       <h2>Commercial Terms & Conditions</h2>
+      <span class="section-tagline">Governance</span>
     </div>
 
     {% for term in proposal.terms %}
@@ -646,14 +786,15 @@
   </div>
   {% endif %}
 
-  <!-- APPROVAL -->
+  <!-- SECTION 7: APPROVAL & SIGN-OFF -->
   <div class="modern-sign">
     <div class="section-headline">
       <div class="section-index">07</div>
       <h2>Authorization & Sign-Off</h2>
+      <span class="section-tagline">Approval</span>
     </div>
 
-    <p style="font-size: 9.5pt; color: #64748b; margin-bottom: 12px;">
+    <p style="font-size: 9pt; color: #64748b; margin-bottom: 12px;">
       By signing below, both parties confirm their formal agreement with the specifications, deliverables, and financial arrangement detailed in this proposal.
     </p>
 
@@ -666,7 +807,7 @@
         <div class="sign-info-row">Signature Date: ______________________________</div>
       </div>
 
-      <div class="sign-party-card">
+      <div class="sign-party-card provider-card">
         <div class="party-title">Service Provider ({{ proposal.company_name }})</div>
         <div class="digital-line"></div>
         <div class="sign-info-row">Authorized Representative: ____________________</div>
