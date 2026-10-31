@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ proposal.title }} - {{ proposal.proposal_number }}</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 20mm 20mm 22mm 20mm;
+      @bottom-right {
+        content: counter(page);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-size: 8pt;
+        color: #a1a1aa;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: #18181b;
+      line-height: 1.65;
+      font-size: 10pt;
+      background: #ffffff;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    /* COVER PAGE */
+    .minimal-cover {
+      page-break-after: always;
+      min-height: 94vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 30px 0 20px 0;
+    }
+
+    .minimal-logo-area {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 80px;
+    }
+
+    .minimal-logo img {
+      max-height: 55px;
+      max-width: 180px;
+      object-fit: contain;
+    }
+
+    .minimal-company-title {
+      font-size: 14pt;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+      color: #09090b;
+    }
+
+    .minimal-ref {
+      font-size: 8.5pt;
+      color: #71717a;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .minimal-headline {
+      margin-top: 40px;
+      margin-bottom: 80px;
+    }
+
+    .minimal-tag {
+      font-size: 8.5pt;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: #71717a;
+      margin-bottom: 24px;
+      font-weight: 500;
+    }
+
+    .minimal-title {
+      font-size: 38pt;
+      font-weight: 300;
+      line-height: 1.1;
+      color: #09090b;
+      letter-spacing: -1.5px;
+      margin-bottom: 24px;
+    }
+
+    .minimal-title strong {
+      font-weight: 600;
+    }
+
+    .minimal-subtitle {
+      font-size: 14pt;
+      color: #52525b;
+      font-weight: 300;
+      letter-spacing: -0.2px;
+      max-width: 80%;
+    }
+
+    .minimal-parties-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      padding-top: 40px;
+      border-top: 1px solid #e4e4e7;
+    }
+
+    .minimal-party-col h4 {
+      font-size: 8pt;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #a1a1aa;
+      margin-bottom: 12px;
+    }
+
+    .minimal-party-col p {
+      font-size: 9.5pt;
+      color: #3f3f46;
+      line-height: 1.6;
+    }
+
+    .minimal-party-col strong {
+      color: #09090b;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .minimal-cover-foot {
+      display: flex;
+      justify-content: space-between;
+      font-size: 8pt;
+      color: #a1a1aa;
+      letter-spacing: 0.5px;
+      padding-top: 24px;
+      border-top: 1px solid #f4f4f5;
+    }
+
+    /* INNER PAGES */
+    .section-block {
+      margin-bottom: 36px;
+      break-inside: auto;
+    }
+
+    .section-heading-wrap {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #18181b;
+      margin-top: 28px;
+      margin-bottom: 20px;
+    }
+
+    .section-num {
+      font-size: 9pt;
+      color: #71717a;
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+
+    .section-heading-wrap h2 {
+      font-size: 13pt;
+      font-weight: 600;
+      color: #09090b;
+      letter-spacing: -0.3px;
+    }
+
+    .body-copy {
+      font-size: 10pt;
+      color: #3f3f46;
+      line-height: 1.7;
+      white-space: pre-line;
+      margin-bottom: 16px;
+    }
+
+    /* OBJECTIVES */
+    .minimal-list {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 20px;
+    }
+
+    .minimal-list li {
+      padding: 10px 0;
+      border-bottom: 1px solid #f4f4f5;
+      display: flex;
+      gap: 16px;
+      font-size: 9.5pt;
+      color: #27272a;
+      break-inside: avoid;
+    }
+
+    .minimal-list-dot {
+      color: #a1a1aa;
+      font-size: 8pt;
+      margin-top: 2px;
+    }
+
+    /* CARDS */
+    .minimal-item {
+      padding: 14px 0;
+      border-bottom: 1px solid #e4e4e7;
+      break-inside: avoid;
+    }
+
+    .minimal-item:last-child {
+      border-bottom: none;
+    }
+
+    .minimal-item-name {
+      font-size: 10.5pt;
+      font-weight: 600;
+      color: #09090b;
+      margin-bottom: 4px;
+    }
+
+    .minimal-item-desc {
+      font-size: 9.5pt;
+      color: #52525b;
+      line-height: 1.5;
+    }
+
+    /* MINIMAL TABLES */
+    .clean-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      margin-bottom: 24px;
+      font-size: 9pt;
+      break-inside: avoid;
+    }
+
+    .clean-table th {
+      text-align: left;
+      font-size: 7.5pt;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #71717a;
+      padding: 10px 0;
+      border-bottom: 1px solid #18181b;
+    }
+
+    .clean-table td {
+      padding: 12px 0;
+      border-bottom: 1px solid #f4f4f5;
+      color: #27272a;
+    }
+
+    .text-right {
+      text-align: right !important;
+    }
+
+    .clean-totals-wrap {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 8px;
+      margin-bottom: 28px;
+      break-inside: avoid;
+    }
+
+    .clean-totals-box {
+      width: 260px;
+    }
+
+    .clean-total-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      font-size: 9pt;
+      color: #71717a;
+    }
+
+    .clean-grand-total {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 12px;
+      margin-top: 8px;
+      border-top: 1px solid #18181b;
+      font-size: 12pt;
+      font-weight: 600;
+      color: #09090b;
+    }
+
+    /* TERMS */
+    .minimal-term {
+      margin-bottom: 16px;
+      break-inside: avoid;
+    }
+
+    .minimal-term-title {
+      font-size: 9.5pt;
+      font-weight: 600;
+      color: #09090b;
+      margin-bottom: 4px;
+    }
+
+    .minimal-term-body {
+      font-size: 9pt;
+      color: #52525b;
+      line-height: 1.6;
+    }
+
+    /* SIGNATURES */
+    .minimal-sign-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      margin-top: 24px;
+      break-inside: avoid;
+    }
+
+    .minimal-sign-box h5 {
+      font-size: 8pt;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #71717a;
+      margin-bottom: 24px;
+    }
+
+    .minimal-line {
+      height: 1px;
+      background: #71717a;
+      margin-bottom: 12px;
+    }
+
+    .minimal-sign-meta {
+      font-size: 8.5pt;
+      color: #71717a;
+      margin-bottom: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- COVER PAGE -->
+  <div class="minimal-cover">
+    <div class="minimal-logo-area">
+      <div class="minimal-logo">
+        {% if proposal.company_logo_url %}
+          <img src="{{ proposal.company_logo_url }}" alt="{{ proposal.company_name }} Logo" />
+        {% else %}
+          <div class="minimal-company-title">{{ proposal.company_name or 'ProposalCraft' }}</div>
+        {% endif %}
+      </div>
+      <div class="minimal-ref">{{ proposal.proposal_number }}</div>
+    </div>
+
+    <div class="minimal-headline">
+      <div class="minimal-tag">Project Proposal</div>
+      <h1 class="minimal-title">{{ proposal.title }}</h1>
+      {% if proposal.project_name %}
+        <div class="minimal-subtitle">{{ proposal.project_name }}</div>
+      {% endif %}
+    </div>
+
+    <div class="minimal-parties-grid">
+      <div class="minimal-party-col">
+        <h4>Prepared For</h4>
+        <strong>{{ proposal.client_name }}</strong>
+        <p>{{ proposal.client_company }}</p>
+        {% if proposal.client_email %}<p>{{ proposal.client_email }}</p>{% endif %}
+        {% if proposal.client_phone %}<p>{{ proposal.client_phone }}</p>{% endif %}
+        {% if proposal.client_address %}<p>{{ proposal.client_address }}</p>{% endif %}
+      </div>
+
+      <div class="minimal-party-col">
+        <h4>Submitted By</h4>
+        <strong>{{ proposal.company_name }}</strong>
+        {% if proposal.company_email %}<p>{{ proposal.company_email }}</p>{% endif %}
+        {% if proposal.company_phone %}<p>{{ proposal.company_phone }}</p>{% endif %}
+        {% if proposal.company_website %}<p>{{ proposal.company_website }}</p>{% endif %}
+        {% if proposal.company_address %}<p>{{ proposal.company_address }}</p>{% endif %}
+      </div>
+    </div>
+
+    <div class="minimal-cover-foot">
+      <span>{{ proposal.created_at.strftime('%d %B %Y') if proposal.created_at else 'Current Date' }}</span>
+      <span>Confidential</span>
+    </div>
+  </div>
+
+  <!-- EXECUTIVE SUMMARY & OBJECTIVES -->
+  {% if proposal.project_description or proposal.project_objectives %}
+  <div class="section-block">
+    <div class="section-heading-wrap">
+      <span class="section-num">01</span>
+      <h2>Overview & Objectives</h2>
+    </div>
+
+    {% if proposal.project_description %}
+      <div class="body-copy">{{ proposal.project_description }}</div>
+    {% endif %}
+
+    {% if proposal.project_objectives and proposal.project_objectives|length > 0 %}
+      <h3 style="font-size: 10pt; font-weight: 600; color: #09090b; margin: 18px 0 10px 0;">Objectives</h3>
+      <ul class="minimal-list">
+        {% for obj in proposal.project_objectives %}
+          <li>
+            <span class="minimal-list-dot">—</span>
+            <span>{{ obj }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  <!-- SCOPE OF WORK -->
+  {% if proposal.scope_items and proposal.scope_items|length > 0 %}
+  <div class="section-block">
+    <div class="section-heading-wrap">
+      <span class="section-num">02</span>
+      <h2>Scope of Work</h2>
+    </div>
+
+    {% for item in proposal.scope_items %}
+      <div class="minimal-item">
+        <div class="minimal-item-name">{{ item.title }}</div>
+        {% if item.description %}
+          <div class="minimal-item-desc">{{ item.description }}</div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- DELIVERABLES & ASSUMPTIONS -->
+  {% if (proposal.deliverables and proposal.deliverables|length > 0) or proposal.assumptions %}
+  <div class="section-block">
+    <div class="section-heading-wrap">
+      <span class="section-num">03</span>
+      <h2>Deliverables & Assumptions</h2>
+    </div>
+
+    {% if proposal.deliverables and proposal.deliverables|length > 0 %}
+      {% for deliv in proposal.deliverables %}
+        <div class="minimal-item">
+          <div class="minimal-item-name">{{ deliv.title }}</div>
+          {% if deliv.description %}
+            <div class="minimal-item-desc">{{ deliv.description }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    {% if proposal.assumptions %}
+      <h3 style="font-size: 10pt; font-weight: 600; color: #09090b; margin: 20px 0 6px 0;">Assumptions</h3>
+      <div class="body-copy">{{ proposal.assumptions }}</div>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  <!-- TIMELINE -->
+  {% if proposal.timeline_phases and proposal.timeline_phases|length > 0 %}
+  <div class="section-block">
+    <div class="section-heading-wrap">
+      <span class="section-num">04</span>
+      <h2>Timeline & Schedule</h2>
+    </div>
+
+    <table class="clean-table">
+      <thead>
+        <tr>
+          <th style="width: 25%;">Phase</th>
+          <th style="width: 45%;">Description</th>
+          <th style="width: 15%;">Dates</th>
+          <th style="width: 15%;">Duration</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for phase in proposal.timeline_phases %}
+        <tr>
+          <td><strong>{{ phase.phase_name }}</strong></td>
+          <td>{{ phase.description }}</td>
+          <td>{{ phase.start_date }}{% if phase.end_date %} to {{ phase.end_date }}{% endif %}</td>
+          <td>{{ phase.duration }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+
+  <!-- PRICING & COST BREAKDOWN -->
+  {% if proposal.line_items and proposal.line_items|length > 0 %}
+  <div class="section-block">
+    <div class="section-heading-wrap">
+      <span class="section-num">05</span>
+      <h2>Commercial Terms & Cost</h2>
+    </div>
+
+    <table class="clean-table">
+      <thead>
+        <tr>
+          <th style="width: 55%;">Deliverable / Item</th>
+          <th style="width: 15%; text-align: right;">Quantity</th>
+          <th style="width: 15%; text-align: right;">Rate</th>
+          <th style="width: 15%; text-align: right;">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in proposal.line_items %}
+        <tr>
+          <td>{{ item.description }}</td>
+          <td class="text-right">{{ item.quantity }}</td>
+          <td class="text-right">{{ proposal.currency_symbol }}{{ "{:,.2f}".format(item.unit_price) }}</td>
+          <td class="text-right">{{ proposal.currency_symbol }}{{ "{:,.2f}".format(item.total) }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="clean-totals-wrap">
+      <div class="clean-totals-box">
+        <div class="clean-total-row">
+          <span>Subtotal</span>
+          <span>{{ proposal.currency_symbol }}{{ "{:,.2f}".format(proposal.subtotal) }}</span>
+        </div>
+        {% if proposal.discount_percentage > 0 %}
+        <div class="clean-total-row">
+          <span>Discount ({{ proposal.discount_percentage }}%)</span>
+          <span>-{{ proposal.currency_symbol }}{{ "{:,.2f}".format(proposal.discount_amount) }}</span>
+        </div>
+        {% endif %}
+        {% if proposal.tax_percentage > 0 %}
+        <div class="clean-total-row">
+          <span>Tax ({{ proposal.tax_percentage }}%)</span>
+          <span>+{{ proposal.currency_symbol }}{{ "{:,.2f}".format(proposal.tax_amount) }}</span>
+        </div>
+        {% endif %}
+        <div class="clean-grand-total">
+          <span>Grand Total</span>
+          <span>{{ proposal.currency_symbol }}{{ "{:,.2f}".format(proposal.grand_total) }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- TERMS -->
+  {% if proposal.terms and proposal.terms|length > 0 %}
+  <div class="section-block">
+    <div class="section-heading-wrap">
+      <span class="section-num">06</span>
+      <h2>Terms & Conditions</h2>
+    </div>
+
+    {% for term in proposal.terms %}
+      <div class="minimal-term">
+        <div class="minimal-term-title">{{ term.title }}</div>
+        <div class="minimal-term-body">{{ term.content }}</div>
+      </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- ACCEPTANCE -->
+  <div class="section-block" style="break-inside: avoid; margin-top: 40px;">
+    <div class="section-heading-wrap">
+      <span class="section-num">07</span>
+      <h2>Acceptance & Signatures</h2>
+    </div>
+
+    <p style="font-size: 9pt; color: #71717a; margin-bottom: 20px;">
+      The undersigned acknowledge and accept the terms, schedule, and pricing provided in this proposal document.
+    </p>
+
+    <div class="minimal-sign-grid">
+      <div class="minimal-sign-box">
+        <h5>Client: {{ proposal.client_company or proposal.client_name }}</h5>
+        <div class="minimal-line"></div>
+        <div class="minimal-sign-meta">Signature</div>
+        <div class="minimal-sign-meta">Name: {{ proposal.client_name }}</div>
+        <div class="minimal-sign-meta">Date: ________________________</div>
+      </div>
+
+      <div class="minimal-sign-box">
+        <h5>Provider: {{ proposal.company_name }}</h5>
+        <div class="minimal-line"></div>
+        <div class="minimal-sign-meta">Signature</div>
+        <div class="minimal-sign-meta">Name: ________________________</div>
+        <div class="minimal-sign-meta">Date: ________________________</div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

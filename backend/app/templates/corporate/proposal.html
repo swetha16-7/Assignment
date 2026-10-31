@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ proposal.title }} - {{ proposal.proposal_number }}</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 18mm 18mm 20mm 18mm;
+      @bottom-right {
+        content: counter(page) " / " counter(pages);
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 9pt;
+        color: #64748b;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Georgia', 'Times New Roman', serif;
+      color: #1e293b;
+      line-height: 1.6;
+      font-size: 10.5pt;
+      background: #ffffff;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .cover-page {
+      page-break-after: always;
+      min-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 40px 10px;
+      border-top: 6px solid #0f2942;
+      border-bottom: 3px solid #0f2942;
+    }
+
+    .cover-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 60px;
+    }
+
+    .cover-logo img {
+      max-height: 70px;
+      max-width: 220px;
+      object-fit: contain;
+    }
+
+    .cover-company-text {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 13pt;
+      font-weight: 700;
+      color: #0f2942;
+      letter-spacing: 0.5px;
+    }
+
+    .cover-meta-badge {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 9pt;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #0f2942;
+      background: #f1f5f9;
+      padding: 6px 14px;
+      border-radius: 4px;
+      border: 1px solid #cbd5e1;
+    }
+
+    .cover-body {
+      margin-top: 40px;
+      margin-bottom: 60px;
+    }
+
+    .cover-label {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 10pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #64748b;
+      margin-bottom: 12px;
+    }
+
+    .cover-title {
+      font-size: 32pt;
+      font-weight: 700;
+      color: #0f2942;
+      line-height: 1.2;
+      margin-bottom: 15px;
+    }
+
+    .cover-subtitle {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 15pt;
+      color: #334155;
+      margin-bottom: 30px;
+    }
+
+    .cover-rule {
+      width: 80px;
+      height: 3px;
+      background-color: #0f2942;
+      margin-bottom: 40px;
+    }
+
+    .cover-details-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      background: #f8fafc;
+      border-left: 4px solid #0f2942;
+      padding: 24px 30px;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    .detail-col h4 {
+      font-size: 8.5pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #64748b;
+      margin-bottom: 8px;
+    }
+
+    .detail-col p {
+      font-size: 10pt;
+      color: #0f172a;
+      line-height: 1.5;
+    }
+
+    .cover-footer {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 8.5pt;
+      color: #64748b;
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 15px;
+    }
+
+    /* Inner pages */
+    .page-section {
+      margin-bottom: 32px;
+      break-inside: auto;
+    }
+
+    .section-header {
+      border-bottom: 2px solid #0f2942;
+      padding-bottom: 6px;
+      margin-bottom: 16px;
+      margin-top: 24px;
+    }
+
+    .section-title {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 14pt;
+      font-weight: 700;
+      color: #0f2942;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .rich-text {
+      font-size: 10.5pt;
+      color: #334155;
+      white-space: pre-line;
+      margin-bottom: 12px;
+    }
+
+    /* Objectives & Deliverables lists */
+    .objectives-list {
+      list-style-type: none;
+      padding: 0;
+      margin: 0 0 16px 0;
+    }
+
+    .objectives-list li {
+      position: relative;
+      padding-left: 24px;
+      margin-bottom: 10px;
+      font-size: 10.5pt;
+      color: #334155;
+    }
+
+    .objectives-list li::before {
+      content: "■";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: #0f2942;
+      font-size: 8pt;
+    }
+
+    .card-item {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-left: 3px solid #0f2942;
+      padding: 14px 18px;
+      margin-bottom: 12px;
+      break-inside: avoid;
+    }
+
+    .card-item-title {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-weight: 700;
+      font-size: 11pt;
+      color: #0f2942;
+      margin-bottom: 4px;
+    }
+
+    .card-item-desc {
+      font-size: 10pt;
+      color: #475569;
+    }
+
+    /* Table styling */
+    .pricing-table, .timeline-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+      margin-bottom: 20px;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 9.5pt;
+      break-inside: avoid;
+    }
+
+    .pricing-table th, .timeline-table th {
+      background-color: #0f2942;
+      color: #ffffff;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 8.5pt;
+      letter-spacing: 0.5px;
+      padding: 10px 12px;
+      text-align: left;
+    }
+
+    .pricing-table td, .timeline-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #e2e8f0;
+      color: #1e293b;
+    }
+
+    .pricing-table tr:nth-child(even) td {
+      background-color: #f8fafc;
+    }
+
+    .text-right {
+      text-align: right !important;
+    }
+
+    .totals-area {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 10px;
+      margin-bottom: 24px;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      break-inside: avoid;
+    }
+
+    .totals-box {
+      width: 280px;
+      border: 1px solid #cbd5e1;
+      background: #f8fafc;
+    }
+
+    .totals-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 14px;
+      font-size: 9.5pt;
+      color: #475569;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .totals-row.grand-total {
+      background: #0f2942;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 11.5pt;
+      border-bottom: none;
+    }
+
+    /* Terms */
+    .term-clause {
+      margin-bottom: 14px;
+      break-inside: avoid;
+    }
+
+    .term-clause-title {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 10.5pt;
+      font-weight: 700;
+      color: #0f2942;
+      margin-bottom: 3px;
+    }
+
+    .term-clause-body {
+      font-size: 9.5pt;
+      color: #475569;
+      line-height: 1.5;
+    }
+
+    /* Acceptance / Signatures */
+    .sign-section {
+      margin-top: 36px;
+      break-inside: avoid;
+    }
+
+    .sign-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-top: 20px;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    .sign-block {
+      border: 1px solid #cbd5e1;
+      padding: 20px;
+      background: #f8fafc;
+    }
+
+    .sign-block h5 {
+      font-size: 9pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #0f2942;
+      margin-bottom: 16px;
+      border-bottom: 1px solid #cbd5e1;
+      padding-bottom: 6px;
+    }
+
+    .sign-line {
+      height: 40px;
+      border-bottom: 1px solid #94a3b8;
+      margin-bottom: 14px;
+    }
+
+    .sign-field {
+      font-size: 8.5pt;
+      color: #64748b;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- COVER PAGE -->
+  <div class="cover-page">
+    <div class="cover-header">
+      <div class="cover-logo">
+        {% if proposal.company_logo_url %}
+          <img src="{{ proposal.company_logo_url }}" alt="{{ proposal.company_name }} Logo" />
+        {% else %}
+          <div class="cover-company-text">{{ proposal.company_name or 'ProposalCraft' }}</div>
+        {% endif %}
+      </div>
+      <div class="cover-meta-badge">{{ proposal.proposal_number }}</div>
+    </div>
+
+    <div class="cover-body">
+      <div class="cover-label">Formal Business Proposal</div>
+      <h1 class="cover-title">{{ proposal.title }}</h1>
+      {% if proposal.project_name %}
+        <div class="cover-subtitle">Project: {{ proposal.project_name }}</div>
+      {% endif %}
+      <div class="cover-rule"></div>
+
+      <div class="cover-details-grid">
+        <div class="detail-col">
+          <h4>Prepared For</h4>
+          <p><strong>{{ proposal.client_name }}</strong></p>
+          <p>{{ proposal.client_company }}</p>
+          {% if proposal.client_email %}<p>{{ proposal.client_email }}</p>{% endif %}
+          {% if proposal.client_phone %}<p>{{ proposal.client_phone }}</p>{% endif %}
+          {% if proposal.client_address %}<p>{{ proposal.client_address }}</p>{% endif %}
+        </div>
+
+        <div class="detail-col">
+          <h4>Presented By</h4>
+          <p><strong>{{ proposal.company_name }}</strong></p>
+          {% if proposal.company_email %}<p>{{ proposal.company_email }}</p>{% endif %}
+          {% if proposal.company_phone %}<p>{{ proposal.company_phone }}</p>{% endif %}
+          {% if proposal.company_website %}<p>{{ proposal.company_website }}</p>{% endif %}
+          {% if proposal.company_address %}<p>{{ proposal.company_address }}</p>{% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="cover-footer">
+      <span>Date: {{ proposal.created_at.strftime('%B %d, %Y') if proposal.created_at else 'Current Date' }}</span>
+      <span>Confidential & Proprietary Commercial Document</span>
+    </div>
+  </div>
+
+  <!-- EXECUTIVE SUMMARY & OBJECTIVES -->
+  {% if proposal.project_description or proposal.project_objectives %}
+  <div class="page-section">
+    <div class="section-header">
+      <h2 class="section-title">1. Executive Summary & Objectives</h2>
+    </div>
+    {% if proposal.project_description %}
+      <div class="rich-text">{{ proposal.project_description }}</div>
+    {% endif %}
+
+    {% if proposal.project_objectives and proposal.project_objectives|length > 0 %}
+      <h3 style="font-family:'Helvetica Neue', sans-serif; font-size:11pt; font-weight:700; color:#0f2942; margin: 16px 0 10px 0;">Primary Project Objectives</h3>
+      <ul class="objectives-list">
+        {% for obj in proposal.project_objectives %}
+          <li>{{ obj }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  <!-- SCOPE OF WORK -->
+  {% if proposal.scope_items and proposal.scope_items|length > 0 %}
+  <div class="page-section">
+    <div class="section-header">
+      <h2 class="section-title">2. Scope of Work</h2>
+    </div>
+    {% for item in proposal.scope_items %}
+      <div class="card-item">
+        <div class="card-item-title">{{ item.title }}</div>
+        {% if item.description %}
+          <div class="card-item-desc">{{ item.description }}</div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- DELIVERABLES & ASSUMPTIONS -->
+  {% if (proposal.deliverables and proposal.deliverables|length > 0) or proposal.assumptions %}
+  <div class="page-section">
+    <div class="section-header">
+      <h2 class="section-title">3. Deliverables & Assumptions</h2>
+    </div>
+    {% if proposal.deliverables and proposal.deliverables|length > 0 %}
+      <h3 style="font-family:'Helvetica Neue', sans-serif; font-size:11pt; font-weight:700; color:#0f2942; margin-bottom: 10px;">Key Deliverables</h3>
+      {% for deliv in proposal.deliverables %}
+        <div class="card-item">
+          <div class="card-item-title">{{ deliv.title }}</div>
+          {% if deliv.description %}
+            <div class="card-item-desc">{{ deliv.description }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    {% if proposal.assumptions %}
+      <h3 style="font-family:'Helvetica Neue', sans-serif; font-size:11pt; font-weight:700; color:#0f2942; margin: 16px 0 8px 0;">Project Assumptions</h3>
+      <div class="rich-text">{{ proposal.assumptions }}</div>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  <!-- PROJECT TIMELINE -->
+  {% if proposal.timeline_phases and proposal.timeline_phases|length > 0 %}
+  <div class="page-section">
+    <div class="section-header">
+      <h2 class="section-title">4. Project Timeline & Milestones</h2>
+    </div>
+    <table class="timeline-table">
+      <thead>
+        <tr>
+          <th style="width: 25%;">Phase</th>
+          <th style="width: 45%;">Description / Milestones</th>
+          <th style="width: 15%;">Dates</th>
+          <th style="width: 15%;">Duration</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for phase in proposal.timeline_phases %}
+        <tr>
+          <td><strong>{{ phase.phase_name }}</strong></td>
+          <td>{{ phase.description }}</td>
+          <td>{{ phase.start_date }}{% if phase.end_date %} to {{ phase.end_date }}{% endif %}</td>
+          <td>{{ phase.duration }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+
+  <!-- PRICING & COST BREAKDOWN -->
+  {% if proposal.line_items and proposal.line_items|length > 0 %}
+  <div class="page-section">
+    <div class="section-header">
+      <h2 class="section-title">5. Investment & Cost Breakdown</h2>
+    </div>
+    <table class="pricing-table">
+      <thead>
+        <tr>
+          <th style="width: 55%;">Item Description</th>
+          <th style="width: 15%; text-align: right;">Qty</th>
+          <th style="width: 15%; text-align: right;">Unit Price</th>
+          <th style="width: 15%; text-align: right;">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in proposal.line_items %}
+        <tr>
+          <td>{{ item.description }}</td>
+          <td class="text-right">{{ item.quantity }}</td>
+          <td class="text-right">{{ proposal.currency_symbol }}{{ "{:,.2f}".format(item.unit_price) }}</td>
+          <td class="text-right">{{ proposal.currency_symbol }}{{ "{:,.2f}".format(item.total) }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="totals-area">
+      <div class="totals-box">
+        <div class="totals-row">
+          <span>Subtotal:</span>
+          <span>{{ proposal.currency_symbol }}{{ "{:,.2f}".format(proposal.subtotal) }}</span>
+        </div>
+        {% if proposal.discount_percentage > 0 %}
+        <div class="totals-row">
+          <span>Discount ({{ proposal.discount_percentage }}%):</span>
+          <span>-{{ proposal.currency_symbol }}{{ "{:,.2f}".format(proposal.discount_amount) }}</span>
+        </div>
+        {% endif %}
+        {% if proposal.tax_percentage > 0 %}
+        <div class="totals-row">
+          <span>Tax ({{ proposal.tax_percentage }}%):</span>
+          <span>+{{ proposal.currency_symbol }}{{ "{:,.2f}".format(proposal.tax_amount) }}</span>
+        </div>
+        {% endif %}
+        <div class="totals-row grand-total">
+          <span>Grand Total:</span>
+          <span>{{ proposal.currency_symbol }}{{ "{:,.2f}".format(proposal.grand_total) }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- TERMS & CONDITIONS -->
+  {% if proposal.terms and proposal.terms|length > 0 %}
+  <div class="page-section">
+    <div class="section-header">
+      <h2 class="section-title">6. Terms & Conditions</h2>
+    </div>
+    {% for term in proposal.terms %}
+      <div class="term-clause">
+        <div class="term-clause-title">{{ term.title }}</div>
+        <div class="term-clause-body">{{ term.content }}</div>
+      </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- ACCEPTANCE / APPROVAL -->
+  <div class="sign-section">
+    <div class="section-header">
+      <h2 class="section-title">7. Acceptance & Authorization</h2>
+    </div>
+    <p style="font-size: 9.5pt; color: #475569; margin-bottom: 12px; font-family: 'Helvetica Neue', Arial, sans-serif;">
+      By signing below, the parties agree to the terms, pricing, and scope defined in this commercial proposal document.
+    </p>
+
+    <div class="sign-grid">
+      <div class="sign-block">
+        <h5>Accepted by Client: {{ proposal.client_company or proposal.client_name }}</h5>
+        <div class="sign-line"></div>
+        <div class="sign-field">Authorized Signature</div>
+        <div class="sign-field">Printed Name: {{ proposal.client_name }}</div>
+        <div class="sign-field">Title: ___________________________</div>
+        <div class="sign-field">Date: ____________________________</div>
+      </div>
+
+      <div class="sign-block">
+        <h5>Accepted by Provider: {{ proposal.company_name }}</h5>
+        <div class="sign-line"></div>
+        <div class="sign-field">Authorized Signature</div>
+        <div class="sign-field">Printed Name: ___________________________</div>
+        <div class="sign-field">Title: ___________________________</div>
+        <div class="sign-field">Date: ____________________________</div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
