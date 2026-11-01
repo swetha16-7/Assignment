@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import LivePreviewDocument from '@/components/preview/LivePreviewDocument';
 import { formatCurrency, calculateTotals } from '@/lib/calculations';
+import { downloadProposalPdf } from '@/lib/api';
 
 interface Step8Props {
   data: ProposalFormData;
@@ -79,14 +80,18 @@ export default function Step8Review({
           </button>
 
           {downloadUrl && (
-            <a
-              href={downloadUrl}
-              download
+            <button
+              type="button"
+              onClick={() => {
+                if (data.id) {
+                  downloadProposalPdf(data.id, `${data.proposal_number || 'proposal'}.pdf`);
+                }
+              }}
               className="inline-flex items-center gap-1.5 px-4 py-2 text-xs sm:text-sm font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 hover:bg-emerald-100 rounded-lg shadow-sm transition active:scale-[0.98]"
             >
               <Download className="w-4 h-4" />
               <span>Download PDF</span>
-            </a>
+            </button>
           )}
         </div>
       </div>

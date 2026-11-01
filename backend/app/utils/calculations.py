@@ -1,3 +1,4 @@
+import json
 from decimal import Decimal, ROUND_HALF_UP
 from typing import List, Dict, Any, Tuple
 
@@ -16,17 +17,31 @@ def round_curr(val: Decimal) -> Decimal:
 
 
 def calculate_proposal_totals(
-    line_items: List[Dict[str, Any]],
+    line_items: Any,
     discount_percentage: float = 0.0,
     tax_percentage: float = 0.0
 ) -> Dict[str, Any]:
     """
     Computes exact line totals, subtotal, discount, tax, and grand total using safe decimal arithmetic.
+    Safely parses JSON strings if line_items was stringified.
     """
+    items_list = []
+    if isinstance(line_items, list):
+        items_list = line_items
+    elif isinstance(line_items, str):
+        try:
+            parsed = json.loads(line_items)
+            if isinstance(parsed, list):
+                items_list = parsed
+        except Exception:
+            items_list = []
+
     processed_items = []
     subtotal = Decimal("0.00")
 
-    for item in line_items:
+    for item in items_list:
+        if not isinstance(item, dict):
+            continue
         desc = item.get("description", "")
         qty = to_decimal(item.get("quantity", 1))
         if qty < Decimal("0"):

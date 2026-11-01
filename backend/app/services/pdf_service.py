@@ -1,5 +1,6 @@
 import os
 import re
+import json
 from datetime import datetime
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from playwright.async_api import async_playwright
@@ -15,12 +16,31 @@ jinja_env = Environment(
 )
 
 
+def safe_json_list(val) -> list:
+    """Ensures input is converted to a python list, parsing JSON strings if necessary."""
+    if val is None:
+        return []
+    if isinstance(val, list):
+        return val
+    if isinstance(val, str):
+        val_str = val.strip()
+        if not val_str:
+            return []
+        try:
+            parsed = json.loads(val_str)
+            if isinstance(parsed, list):
+                return parsed
+        except Exception:
+            return []
+    return []
+
+
 def normalize_proposal_dict(proposal_data: dict) -> dict:
     """Ensure all required fields exist for safe template rendering."""
     data = dict(proposal_data)
     
-    # Recalculate totals for precision
-    line_items = data.get("line_items") or []
+    # Ensure list types (handles strings from SQLite or JSON payloads)
+    line_items = safe_json_list(data.get("line_items"))
     disc = data.get("discount_percentage") or 0.0
     tax = data.get("tax_percentage") or 0.0
     totals = calculate_proposal_totals(line_items, disc, tax)
@@ -31,17 +51,11 @@ def normalize_proposal_dict(proposal_data: dict) -> dict:
     data["tax_amount"] = totals["tax_amount"]
     data["grand_total"] = totals["grand_total"]
 
-    # Ensure list types
-    if not isinstance(data.get("project_objectives"), list):
-        data["project_objectives"] = []
-    if not isinstance(data.get("scope_items"), list):
-        data["scope_items"] = []
-    if not isinstance(data.get("deliverables"), list):
-        data["deliverables"] = []
-    if not isinstance(data.get("timeline_phases"), list):
-        data["timeline_phases"] = []
-    if not isinstance(data.get("terms"), list):
-        data["terms"] = []
+    data["project_objectives"] = safe_json_list(data.get("project_objectives"))
+    data["scope_items"] = safe_json_list(data.get("scope_items"))
+    data["deliverables"] = safe_json_list(data.get("deliverables"))
+    data["timeline_phases"] = safe_json_list(data.get("timeline_phases"))
+    data["terms"] = safe_json_list(data.get("terms"))
 
     if "currency_symbol" not in data or not data["currency_symbol"]:
         data["currency_symbol"] = "$"
@@ -82,14 +96,17 @@ def render_proposal_html(proposal_data: dict, template_id: str = None) -> str:
 async def generate_proposal_pdf(proposal: Proposal) -> str:
     """
     Renders the proposal with its chosen template into HTML and converts to A4 PDF using Playwright Chromium.
+    Always creates output directories and outputs an absolute path.
     """
+    os.makedirs(settings.PDF_OUTPUT_DIR, exist_ok=True)
+
     proposal_dict = {c.name: getattr(proposal, c.name) for c in proposal.__table__.columns}
     html_content = render_proposal_html(proposal_dict, proposal.selected_template)
 
     # Sanitize proposal number for filename
     safe_number = re.sub(r"[^a-zA-Z0-9_\-]", "_", proposal.proposal_number or "proposal")
     filename = f"{safe_number}_{proposal.selected_template}.pdf"
-    pdf_path = os.path.join(settings.PDF_OUTPUT_DIR, filename)
+    pdf_path = os.path.abspath(os.path.join(settings.PDF_OUTPUT_DIR, filename))
 
     async with async_playwright() as p:
         browser = await p.chromium.launch(
@@ -104,8 +121,11 @@ async def generate_proposal_pdf(proposal: Proposal) -> str:
         context = await browser.new_context()
         page = await context.new_page()
 
-        # Load rendered HTML with load event
-        await page.set_content(html_content, wait_until="load")
+        # Load rendered HTML with load event and fallback
+        try:
+            await page.set_content(html_content, wait_until="load", timeout=15000)
+        except Exception:
+            await page.set_content(html_content, wait_until="domcontentloaded", timeout=15000)
 
         # Generate PDF with A4 specification
         await page.pdf(

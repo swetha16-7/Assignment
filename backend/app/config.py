@@ -3,6 +3,9 @@ from pydantic_settings import BaseSettings
 from typing import List
 
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
 class Settings(BaseSettings):
     PROJECT_NAME: str = "ProposalCraft"
     PROJECT_VERSION: str = "1.0.0"
@@ -19,15 +22,17 @@ class Settings(BaseSettings):
             url = url.replace("postgres://", "postgresql://", 1)
         return url
 
-    # Storage paths
-    STORAGE_DIR: str = os.getenv("STORAGE_DIR", "./storage")
-    UPLOAD_DIR: str = os.getenv("UPLOAD_DIR", "./storage/uploads")
-    PDF_OUTPUT_DIR: str = os.getenv("PDF_OUTPUT_DIR", "./storage/generated_pdfs")
+    # Storage paths (resolved absolutely so cwd does not affect them)
+    STORAGE_DIR: str = os.getenv("STORAGE_DIR", os.path.join(BASE_DIR, "storage"))
+    UPLOAD_DIR: str = os.getenv("UPLOAD_DIR", os.path.join(BASE_DIR, "storage", "uploads"))
+    PDF_OUTPUT_DIR: str = os.getenv("PDF_OUTPUT_DIR", os.path.join(BASE_DIR, "storage", "generated_pdfs"))
     
     # CORS
     CORS_ORIGINS: List[str] = [
         "http://localhost:3000",
         "http://127.0.0.1:3000",
+        "http://localhost:8000",
+        "http://127.0.0.1:8000",
         "https://proposalcraft.vercel.app",
         "*"
     ]

@@ -155,6 +155,31 @@ export function getPdfDownloadUrl(proposalId: string): string {
   return `${API_BASE}/api/proposals/${proposalId}/download`;
 }
 
+export async function downloadProposalPdf(proposalId: string, customFilename?: string): Promise<void> {
+  const url = getPdfDownloadUrl(proposalId);
+  try {
+    const res = await fetch(url);
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.detail || `Failed to download PDF (${res.status})`);
+    }
+    const blob = await res.blob();
+    const blobUrl = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = blobUrl;
+    link.download = customFilename || `proposal_${proposalId}.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setTimeout(() => window.URL.revokeObjectURL(blobUrl), 200);
+  } catch (err: any) {
+    // If fetch failed, fallback to direct browser navigation/download
+    if (typeof window !== 'undefined') {
+      window.open(url, '_blank');
+    }
+  }
+}
+
 export async function fetchPreviewHtml(data: ProposalFormData): Promise<string> {
   const res = await fetch(`${API_BASE}/api/proposals/preview-html`, {
     method: 'POST',

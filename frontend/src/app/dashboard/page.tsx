@@ -10,6 +10,7 @@ import {
   fetchProposals,
   deleteProposal,
   getPdfDownloadUrl,
+  downloadProposalPdf,
   fetchTemplates,
 } from '@/lib/api';
 import { formatCurrency } from '@/lib/calculations';
@@ -355,14 +356,14 @@ export default function DashboardPage() {
                       <td className="py-3 px-4 text-right">
                         <div className="inline-flex items-center gap-1.5">
                           {prop.id && (
-                            <a
-                              href={getPdfDownloadUrl(prop.id)}
-                              download
+                            <button
+                              type="button"
+                              onClick={() => downloadProposalPdf(prop.id!, `${prop.proposal_number || 'proposal'}.pdf`)}
                               className="p-1.5 rounded-lg text-slate-600 hover:text-emerald-600 hover:bg-emerald-50 transition"
                               title="Download PDF"
                             >
                               <Download className="w-4 h-4" />
-                            </a>
+                            </button>
                           )}
 
                           <Link

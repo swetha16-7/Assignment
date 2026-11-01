@@ -1,7 +1,9 @@
 import os
+import re
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import FileResponse, HTMLResponse
 from sqlalchemy.orm import Session
+from app.config import settings
 from app.database import get_db
 from app.services import proposal_service
 from app.services.pdf_service import generate_proposal_pdf, render_proposal_html
@@ -40,24 +42,34 @@ async def download_pdf(proposal_id: str, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Proposal not found")
 
     pdf_path = proposal.pdf_path
+    
+    # Check if path exists directly
     if not pdf_path or not os.path.exists(pdf_path):
-        # Auto-generate if missing
-        try:
-            pdf_path = await generate_proposal_pdf(proposal)
+        # Check if file exists in settings.PDF_OUTPUT_DIR
+        candidate = os.path.join(settings.PDF_OUTPUT_DIR, os.path.basename(pdf_path or ""))
+        if pdf_path and os.path.exists(candidate):
+            pdf_path = candidate
             proposal.pdf_path = pdf_path
-            proposal.status = "generated"
             db.commit()
-            db.refresh(proposal)
-        except Exception as e:
-            raise HTTPException(status_code=500, detail=f"Failed to render PDF: {str(e)}")
+        else:
+            # Auto-generate if missing
+            try:
+                pdf_path = await generate_proposal_pdf(proposal)
+                proposal.pdf_path = pdf_path
+                proposal.status = "generated"
+                db.commit()
+                db.refresh(proposal)
+            except Exception as e:
+                raise HTTPException(status_code=500, detail=f"Failed to render PDF: {str(e)}")
 
-    download_filename = f"{proposal.proposal_number}_{proposal.title[:30].replace(' ', '_')}.pdf"
+    safe_number = re.sub(r"[^a-zA-Z0-9_\-]", "_", proposal.proposal_number or "proposal")
+    safe_title = re.sub(r"[^a-zA-Z0-9_\-]", "_", (proposal.title or "proposal")[:30]).strip("_") or "document"
+    download_filename = f"{safe_number}_{safe_title}.pdf"
 
     return FileResponse(
         path=pdf_path,
         media_type="application/pdf",
         filename=download_filename,
-        headers={"Content-Disposition": f'attachment; filename="{download_filename}"'}
     )
 
 

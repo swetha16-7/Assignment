@@ -6,7 +6,7 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import LivePreviewDocument from '@/components/preview/LivePreviewDocument';
 import { ProposalFormData } from '@/lib/types';
-import { fetchProposal, generatePdf, getPdfDownloadUrl } from '@/lib/api';
+import { fetchProposal, generatePdf, getPdfDownloadUrl, downloadProposalPdf } from '@/lib/api';
 import {
   Download,
   Sparkles,
@@ -117,14 +117,14 @@ export default function ProposalPreviewPage() {
             </button>
 
             {downloadUrl && (
-              <a
-                href={downloadUrl}
-                download
+              <button
+                type="button"
+                onClick={() => downloadProposalPdf(id, `${proposal?.proposal_number || 'proposal'}.pdf`)}
                 className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-semibold rounded-lg shadow-sm transition active:scale-[0.98]"
               >
                 <Download className="w-4 h-4" />
                 <span>Download PDF</span>
-              </a>
+              </button>
             )}
           </div>
         </div>
