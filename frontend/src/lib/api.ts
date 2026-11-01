@@ -1,6 +1,27 @@
 import { ProposalFormData, TemplateMetadata, DashboardStats } from './types';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+function getApiBaseUrl(): string {
+  let url = (process.env.NEXT_PUBLIC_API_URL || '').trim();
+
+  // If unset or placeholder
+  if (!url || url === 'NEXT_PUBLIC_API_URL' || url === 'undefined' || url === 'null') {
+    // In browser client, empty string lets requests use relative path (e.g. /api/... via rewrites)
+    if (typeof window !== 'undefined') {
+      return '';
+    }
+    return 'http://127.0.0.1:8000';
+  }
+
+  // Ensure scheme
+  if (!url.startsWith('http://') && !url.startsWith('https://')) {
+    url = `https://${url}`;
+  }
+
+  // Strip trailing slashes
+  return url.replace(/\/+$/, '');
+}
+
+const API_BASE = getApiBaseUrl();
 
 export async function fetchHealth() {
   const res = await fetch(`${API_BASE}/health`);
