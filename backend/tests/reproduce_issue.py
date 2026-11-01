@@ -46,3 +46,4 @@ try:
     print("Case 2 SUCCESS! Line items count:", len(normalized["line_items"]))
 except Exception as e:
     print("Case 2 CRASHED with:", type(e).__name__, ":", e)
+
